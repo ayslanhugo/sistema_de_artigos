@@ -1,0 +1,45 @@
+<h1>Artigos Publicados</h1>
+<p>Bem-vindo à nossa coleção de artigos acadêmicos.</p>
+
+<%= form_with(url: root_path, method: :get, class: "d-flex mb-4") do |form| %>
+  <%= form.text_field :query, 
+        class: "form-control me-2", 
+        placeholder: "Buscar por título...", 
+        value: params[:query] %>
+  <%= form.submit "Buscar", class: "btn btn-outline-primary" %>
+<% end %>
+
+<hr>
+
+<% if @approved_articles.any? %>
+  <% @approved_articles.each do |article| %>
+  <div class="card mb-3">
+    <div class="card-body">
+  <h5 class="card-title"><%= article.title %></h5>
+  <p class="card-text">
+    <small class="text-muted">
+      Publicado por <%= article.user.email %> em <%= article.updated_at.strftime("%d de %B, %Y") %>
+    </small>
+  </p>
+  
+  <%# Adicionamos esta verificação para só mostrar o link se houver um anexo %>
+  <% if article.pdf_file.attached? %>
+    <%= link_to "Visualizar PDF", rails_blob_path(article.pdf_file, disposition: 'inline'), target: "_blank", class: "btn btn-primary" %>
+  <% end %>
+</div>
+  </div>
+<% end %>
+
+<div class="d-flex justify-content-center mt-4">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>
+
+<% else %>
+  <% if params[:query].present? %>
+    <div class="alert alert-warning">
+      Nenhum artigo encontrado para a busca: <strong><%= params[:query] %></strong>
+    </div>
+  <% else %>
+    <p>Nenhum artigo foi publicado ainda. Volte em breve!</p>
+  <% end %>
+<% end %>

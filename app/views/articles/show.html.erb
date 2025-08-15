@@ -1,0 +1,46 @@
+<p>
+  <strong>Título:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @article.status.humanize %>
+</p>
+
+<%# Botões de aprovação só aparecem para o admin na página de detalhes %>
+<% if current_user.admin? %>
+  <div class="d-flex gap-2">
+    <%# Usamos a lógica inversa da tela de gerenciamento para os botões de status %>
+    <% if !@article.aprovado? %>
+      <%= button_to "Aprovar", approve_article_path(@article), method: :patch, class: "btn btn-success" %>
+    <% end %>
+    <% if !@article.reprovado? %>
+      <%= button_to "Reprovar", reject_article_path(@article), method: :patch, class: "btn btn-danger" %>
+    <% end %>
+     <% if !@article.pendente? %>
+      <%= button_to "Marcar Pendente", set_pending_article_path(@article), method: :patch, class: "btn btn-info" %>
+    <% end %>
+  </div>
+<% end %>
+
+<hr>
+
+<h3>Visualizador de PDF</h3>
+
+<% if @article.pdf_file.attached? %>
+  <iframe src="<%= view_pdf_article_path(@article) %>" width="100%" height="800px" style="border: 1px solid #ccc;"></iframe>
+<% else %>
+  <p>Nenhum PDF foi anexado a este artigo.</p>
+<% end %>
+
+<hr>
+
+<div class="mt-4">
+  <%# Link de "Voltar" inteligente %>
+  <% if current_user.admin? %>
+    <%= link_to "Voltar ao Gerenciamento", gerenciar_artigos_path, class: "btn btn-secondary" %>
+  <% else %>
+    <%= link_to "Voltar para Meus Artigos", meus_artigos_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

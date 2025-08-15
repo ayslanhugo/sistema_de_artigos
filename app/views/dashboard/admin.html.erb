@@ -1,0 +1,23 @@
+<h1>Dashboard do Administrador</h1>
+<h2>Artigos Pendentes de Avaliação</h2>
+
+<table class="table table-hover" style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Aluno</th>
+      <th>Enviado em</th>
+      <th colspan="3">Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pending_articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.user.email %></td> <td><%= article.created_at.strftime("%d/%m/%Y") %></td>
+        <td><%= link_to 'Visualizar Artigo', article %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

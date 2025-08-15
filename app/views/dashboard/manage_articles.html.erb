@@ -1,0 +1,62 @@
+<h1>Gerenciamento de Todos os Artigos</h1>
+<p>Aqui você pode visualizar, editar e excluir qualquer artigo do sistema.</p>
+
+<%# --- FILTROS POR STATUS --- %>
+<div class="mb-3">
+  <strong>Filtrar por status:</strong>
+  <%= link_to "Todos", gerenciar_artigos_path, class: "btn btn-sm btn-secondary" %>
+  <%= link_to "Pendentes", gerenciar_artigos_path(status: :pendente), class: "btn btn-sm btn-info" %>
+  <%= link_to "Aprovados", gerenciar_artigos_path(status: :aprovado), class: "btn btn-sm btn-success" %>
+  <%= link_to "Reprovados", gerenciar_artigos_path(status: :reprovado), class: "btn btn-sm btn-danger" %>
+</div>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Status</th>
+      <th style="width: 350px;">Ações</th> <%# Adicionando uma largura fixa para a coluna de ações %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <%# Célula 1: Título %>
+        <td><%= article.title %></td>
+        
+        <%# Célula 2: Autor %>
+        <td><%= article.user.email %></td>
+
+        <%# Célula 3: Status %>
+        <td>
+          <span class="badge bg-<%= article.status == 'pendente' ? 'info' : (article.status == 'aprovado' ? 'success' : 'danger') %>">
+            <%= article.status.humanize %>
+          </span>
+        </td>
+
+        <%# Célula 4: Ações %>
+        <td class="d-flex gap-1">
+          <%= link_to "Ver", article, class: "btn btn-sm btn-light" %>
+          <%= link_to "Editar", edit_article_path(article), class: "btn btn-sm btn-warning" %>
+
+          <% if !article.aprovado? %>
+            <%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "btn btn-sm btn-success" %>
+          <% end %>
+
+          <% if !article.reprovado? %>
+            <%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "btn btn-sm btn-danger" %>
+          <% end %>
+
+          <% if !article.pendente? %>
+            <%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "btn btn-sm btn-info" %>
+          <% end %>
+
+          <div class="ms-auto">
+            <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

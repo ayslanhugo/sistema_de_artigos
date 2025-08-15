@@ -1,0 +1,30 @@
+<%= form_with(model: article) do |form| %>
+  <%# Bloco de erros agora estilizado com classes de alerta do Bootstrap %>
+  <% if article.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(article.errors.count, "erro") %> impediu este artigo de ser salvo:</h2>
+      <ul>
+        <% article.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%# Adicionada a classe 'form-label' %>
+    <%= form.label :title, "Título", class: "form-label" %>
+    <%# Adicionada a classe 'form-control' %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :pdf_file, "Arquivo PDF", class: "form-label" %>
+    <%= form.file_field :pdf_file, class: "form-control" %>
+  </div>
+
+  <div>
+    <%# Adicionadas as classes 'btn btn-primary' para o botão %>
+    <%= form.submit "Salvar Artigo", class: "btn btn-primary" %>
+  </div>
+<% end %>

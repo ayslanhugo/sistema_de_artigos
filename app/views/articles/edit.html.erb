@@ -1,0 +1,15 @@
+<% content_for :title, "Editing article" %>
+
+<h1>Editing article</h1>
+
+<%= render "form", article: @article %>
+
+<br>
+
+<div>
+  <% if current_user.admin? %>
+    <%= link_to "Voltar ao Dashboard", admin_dashboard_path, class: "btn btn-secondary" %>
+  <% else %>
+    <%= link_to "Voltar para Meus Artigos", meus_artigos_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

@@ -1,0 +1,93 @@
+class ArticlesController < ApplicationController
+  before_action :set_article, only: %i[ show edit update destroy approve reject set_pending view_pdf ]
+  before_action :authorize_student!, only: %i[ edit update destroy ]
+
+  def index
+    @articles = Article.all
+  end
+
+  def show
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def edit
+  end
+
+  def create
+    @article = Article.new(article_params)
+    @article.user = current_user
+    @article.status = :pendente
+
+    respond_to do |format|
+      if @article.save
+        format.html { redirect_to article_url(@article), notice: t('articles.create.notice') }
+        format.json { render :show, status: :created, location: @article }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @article.update(article_params)
+        format.html { redirect_to @article, notice: t('articles.update.notice') }
+        format.json { render :show, status: :ok, location: @article }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @article.destroy!
+    respond_to do |format|
+      format.html { redirect_to meus_artigos_path, notice: t('articles.destroy.notice') }
+      format.json { head :no_content }
+    end
+  end
+
+  def approve
+    @article.aprovado!
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.approve.notice')
+  end
+
+  def reject
+    @article.reprovado!
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.reject.notice')
+  end
+
+  def set_pending
+    @article.pendente!
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.set_pending.notice')
+  end
+
+  def view_pdf
+    send_data @article.pdf_file.download,
+              filename: @article.pdf_file.filename.to_s,
+              type: @article.pdf_file.content_type,
+              disposition: 'inline'
+  end
+
+  private
+
+    def set_article
+      @article = Article.find(params[:id])
+    end
+
+    def article_params
+      params.require(:article).permit(:title, :pdf_file)
+    end
+
+    def authorize_student!
+      return if current_user.admin?
+      if @article.user != current_user || !@article.pendente?
+        redirect_to meus_artigos_path, alert: "Você não tem permissão para realizar esta ação."
+      end
+    end
+end

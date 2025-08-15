@@ -1,0 +1,42 @@
+<h1>Meus Artigos Enviados</h1>
+
+<p>
+  <%= link_to "Enviar Novo Artigo", new_article_path, class: "btn btn-primary" %>
+</p>
+
+<hr>
+
+<% if @student_articles.any? %>
+  <table class="table table-hover" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f2f2f2;">
+        <th style="padding: 8px;">Título</th>
+        <th style="padding: 8px;">Data de Envio</th>
+        <th style="padding: 8px;">Status</th>
+        <th style="padding: 8px;">Ações</th>
+      </tr>
+    </thead>
+<tbody>
+  <% @student_articles.each do |article| %>
+    <tr>
+      <td style="padding: 8px;"><%= article.title %></td>
+      <td style="padding: 8px;"><%= article.created_at.strftime("%d/%m/%Y") %></td>
+      <td style="padding: 8px;"><%= article.status.humanize %></td>
+      <td style="padding: 8px;">
+        <%= link_to "Ver detalhes", article, class: "btn btn-info btn-sm" %>
+        
+        <%# Mostra os botões de Editar e Excluir APENAS se o artigo for pendente %>
+        <% if article.pendente? %>
+          <%# Certifique-se de que a linha abaixo está exatamente assim %>
+          <%= link_to "Editar", edit_article_path(article), class: "btn btn-warning btn-sm" %>
+          
+          <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Você tem certeza?' }, class: "btn btn-danger btn-sm" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</tbody>
+  </table>
+<% else %>
+  <p>Você ainda não enviou nenhum artigo.</p>
+<% end %>
