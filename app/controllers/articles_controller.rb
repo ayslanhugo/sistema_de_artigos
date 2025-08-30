@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to article_url(@article), notice: t('articles.create.notice') }
+        format.html { redirect_to article_url(@article), notice: t("articles.create.notice") }
         format.json { render :show, status: :created, location: @article }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: t('articles.update.notice') }
+        format.html { redirect_to @article, notice: t("articles.update.notice") }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,31 +47,31 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy!
     respond_to do |format|
-      format.html { redirect_to meus_artigos_path, notice: t('articles.destroy.notice') }
+      format.html { redirect_to meus_artigos_path, notice: t("articles.destroy.notice") }
       format.json { head :no_content }
     end
   end
 
   def approve
     @article.aprovado!
-    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.approve.notice')
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.approve.notice")
   end
 
   def reject
     @article.reprovado!
-    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.reject.notice')
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.reject.notice")
   end
 
   def set_pending
     @article.pendente!
-    redirect_back fallback_location: gerenciar_artigos_path, notice: t('articles.set_pending.notice')
+    redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.set_pending.notice")
   end
 
   def view_pdf
     send_data @article.pdf_file.download,
               filename: @article.pdf_file.filename.to_s,
               type: @article.pdf_file.content_type,
-              disposition: 'inline'
+              disposition: "inline"
   end
 
   private
@@ -81,7 +81,7 @@ class ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :pdf_file)
+      params.require(:article).permit(:title, :pdf_file, :cover_image)
     end
 
     def authorize_student!
