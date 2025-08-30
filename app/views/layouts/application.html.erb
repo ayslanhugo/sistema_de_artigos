@@ -6,6 +6,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" ...>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
@@ -15,70 +19,91 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
     <style>
-      :root {
-        --bs-primary: #20c997;
-        --bs-primary-rgb: 32, 201, 151;
-      }
-      a {
-        color: var(--bs-primary);
-      }
-    </style>
+  :root {
+    /* Cor primária baseada no azul do logo */
+    --bs-primary: #0d47a1; /* Um azul marinho forte e profissional */
+    --bs-primary-rgb: 13, 71, 161;
+
+    /* Cor secundária baseada no laranja do logo */
+    --bs-secondary: #f57c00; /* Um laranja vibrante */
+    --bs-secondary-rgb: 245, 124, 0;
+  }
+
+  /* Ajuste para que os links usem a nova cor primária também */
+  a, .navbar-brand, .nav-link {
+    color: var(--bs-primary);
+  }
+
+  /* Ajuste para os links da navbar principal (que tem fundo azul) */
+  .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-brand {
+      color: rgba(255, 255, 255, 0.85);
+  }
+  .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-brand:hover {
+      color: #fff;
+  }
+</style>
 
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div class="container-fluid">
-        <%= link_to "Sistema De Artigos", root_path, class: "navbar-brand" %>
-
-        <%# --- BOTÃO HAMBURGER (NO LUGAR CORRETO) --- %>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <%# DIV COLAPSÁVEL COM O ID CORRETO %>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <% if user_signed_in? && !current_user.admin? %>
-              <li class="nav-item">
-                <%= link_to "Meus Artigos", meus_artigos_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Enviar Novo Artigo", new_article_path, class: "nav-link" %>
-              </li>
-            <% elsif user_signed_in? && current_user.admin? %>
-              <li class="nav-item">
-                <%= link_to "Artigos Pendentes", admin_dashboard_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Gerenciar Artigos", gerenciar_artigos_path, class: "nav-link" %>
-              </li>
-            <% end %>
-          </ul>
-          
-          <ul class="navbar-nav">
-             <% if user_signed_in? %>
-              <li class="nav-item">
-                <span class="navbar-text me-3">
-                  Olá, <%= current_user.email %>
-                </span>
-              </li>
-              <li class="nav-item">
-                <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-outline-light" %>
-              </li>
-            <% else %>
-               <li class="nav-item">
-                <%= link_to "Entrar", new_user_session_path, class: "btn btn-outline-light me-2" %>
-               </li>
-               <li class="nav-item">
-                <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-light" %>
-               </li>
-            <% end %>
-          </ul>
-        </div>
+    <header>
+  <div class="top-bar bg-primary text-white py-1">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
       </div>
-    </nav>
+      <div class="d-none d-lg-flex">
+        <a href="#" class="nav-link text-white me-3"><i class="bi bi-question-circle-fill"></i> Ajuda</a>
+        <a href="#" class="nav-link text-white"><i class="bi bi-telephone-fill"></i> Fale Conosco</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="<%= root_path %>">
+  <%= image_tag "logo.jpg", alt: "Logo Sistema de Artigos", style: "height: 40px;" %>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <%# Nossos links de navegação agora ficam em um menu Dropdown para o usuário logado %>
+        <ul class="navbar-nav ms-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle"></i> Olá, <%= current_user.email.split('@').first %>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <% if current_user.admin? %>
+                  <li><%= link_to "Artigos Pendentes", admin_dashboard_path, class: "dropdown-item" %></li>
+                  <li><%= link_to "Gerenciar Artigos", gerenciar_artigos_path, class: "dropdown-item" %></li>
+                <% else %>
+                  <li><%= link_to "Meus Artigos", meus_artigos_path, class: "dropdown-item" %></li>
+                  <li><%= link_to "Enviar Novo Artigo", new_article_path, class: "dropdown-item" %></li>
+                <% end %>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= link_to "Editar Perfil", edit_user_registration_path, class: "dropdown-item" %></li>
+                <li>
+                  <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li class="nav-item"><%= link_to "Entrar", new_user_session_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-primary" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
     <main class="container mt-4 content-fade-in">
       <% if notice %>
@@ -97,6 +122,6 @@
       </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
   </body>
 </html>

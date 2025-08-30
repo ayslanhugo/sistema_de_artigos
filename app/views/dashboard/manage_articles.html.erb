@@ -37,25 +37,25 @@
 
         <%# Célula 4: Ações %>
         <td class="d-flex gap-1">
-          <%= link_to "Ver", article, class: "btn btn-sm btn-light" %>
-          <%= link_to "Editar", edit_article_path(article), class: "btn btn-sm btn-warning" %>
+  <%= link_to "Ver", article, class: "btn btn-sm btn-light" %>
+  <%= link_to "Editar", edit_article_path(article), class: "btn btn-sm btn-warning" %>
 
-          <% if !article.aprovado? %>
-            <%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "btn btn-sm btn-success" %>
-          <% end %>
+  <% if !article.aprovado? %>
+    <%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "btn btn-sm btn-success", form: { "data-turbo" => "false" } %>
+  <% end %>
 
-          <% if !article.reprovado? %>
-            <%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "btn btn-sm btn-danger" %>
-          <% end %>
+  <% if !article.reprovado? %>
+    <%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "btn btn-sm btn-danger", form: { "data-turbo" => "false" } %>
+  <% end %>
 
-          <% if !article.pendente? %>
-            <%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "btn btn-sm btn-info" %>
-          <% end %>
+  <% if !article.pendente? %>
+    <%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "btn btn-sm btn-info", form: { "data-turbo" => "false" } %>
+  <% end %>
 
-          <div class="ms-auto">
-            <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "btn btn-sm btn-outline-danger" %>
-          </div>
-        </td>
+  <div class="ms-auto">
+    <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "btn btn-sm btn-outline-danger", form: { "data-turbo" => "false" } %>
+  </div>
+</td>
       </tr>
     <% end %>
   </tbody>
