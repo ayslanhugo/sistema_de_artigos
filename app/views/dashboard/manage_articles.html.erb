@@ -1,62 +1,74 @@
 <h1>Gerenciamento de Todos os Artigos</h1>
 <p>Aqui você pode visualizar, editar e excluir qualquer artigo do sistema.</p>
 
-<%# --- FILTROS POR STATUS --- %>
-<div class="mb-3">
-  <strong>Filtrar por status:</strong>
-  <%= link_to "Todos", gerenciar_artigos_path, class: "btn btn-sm btn-secondary" %>
-  <%= link_to "Pendentes", gerenciar_artigos_path(status: :pendente), class: "btn btn-sm btn-info" %>
-  <%= link_to "Aprovados", gerenciar_artigos_path(status: :aprovado), class: "btn btn-sm btn-success" %>
-  <%= link_to "Reprovados", gerenciar_artigos_path(status: :reprovado), class: "btn btn-sm btn-danger" %>
+<div class="card p-3 mb-4">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <%# --- FILTROS POR STATUS --- %>
+      <strong>Filtrar por status:</strong>
+      <%= link_to "Todos", gerenciar_artigos_path, class: "btn btn-sm btn-secondary" %>
+      <%= link_to "Pendentes", gerenciar_artigos_path(status: :pendente), class: "btn btn-sm btn-info" %>
+      <%= link_to "Aprovados", gerenciar_artigos_path(status: :aprovado), class: "btn btn-sm btn-success" %>
+      <%= link_to "Reprovados", gerenciar_artigos_path(status: :reprovado), class: "btn btn-sm btn-danger" %>
+    </div>
+    <div class="col-lg-5 mt-3 mt-lg-0">
+      <%# --- FORMULÁRIO DE BUSCA --- %>
+      <%= form_with(url: gerenciar_artigos_path, method: :get, class: "d-flex") do |form| %>
+        <%= form.text_field :query, class: "form-control me-2", placeholder: "Buscar por título ou autor...", value: params[:query] %>
+        <%= form.submit "Buscar", class: "btn btn-outline-primary" %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover align-middle">
   <thead>
     <tr>
       <th>Título</th>
       <th>Autor</th>
       <th>Status</th>
-      <th style="width: 350px;">Ações</th> <%# Adicionando uma largura fixa para a coluna de ações %>
+      <th class="text-end">Ações</th>
     </tr>
   </thead>
   <tbody>
     <% @articles.each do |article| %>
       <tr>
-        <%# Célula 1: Título %>
         <td><%= article.title %></td>
-        
-        <%# Célula 2: Autor %>
         <td><%= article.user.email %></td>
-
-        <%# Célula 3: Status %>
         <td>
           <span class="badge bg-<%= article.status == 'pendente' ? 'info' : (article.status == 'aprovado' ? 'success' : 'danger') %>">
             <%= article.status.humanize %>
           </span>
         </td>
-
-        <%# Célula 4: Ações %>
-        <td class="d-flex gap-1">
-  <%= link_to "Ver", article, class: "btn btn-sm btn-light" %>
-  <%= link_to "Editar", edit_article_path(article), class: "btn btn-sm btn-warning" %>
-
-  <% if !article.aprovado? %>
-    <%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "btn btn-sm btn-success", form: { "data-turbo" => "false" } %>
-  <% end %>
-
-  <% if !article.reprovado? %>
-    <%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "btn btn-sm btn-danger", form: { "data-turbo" => "false" } %>
-  <% end %>
-
-  <% if !article.pendente? %>
-    <%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "btn btn-sm btn-info", form: { "data-turbo" => "false" } %>
-  <% end %>
-
-  <div class="ms-auto">
-    <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "btn btn-sm btn-outline-danger", form: { "data-turbo" => "false" } %>
-  </div>
-</td>
+        <td class="text-end">
+          <%# --- MENU DROPDOWN DE AÇÕES --- %>
+          <div class="dropdown">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-<%= article.id %>" data-bs-toggle="dropdown" aria-expanded="false">
+              Ações
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-<%= article.id %>">
+              <li><%= link_to "Ver", article, class: "dropdown-item" %></li>
+              <li><%= link_to "Editar", edit_article_path(article), class: "dropdown-item" %></li>
+              <li><hr class="dropdown-divider"></li>
+              <% if !article.aprovado? %>
+                <li><%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
+              <% end %>
+              <% if !article.reprovado? %>
+                <li><%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
+              <% end %>
+              <% if !article.pendente? %>
+                <li><%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
+              <% end %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "dropdown-item text-danger", form: { "data-turbo" => "false" } %></li>
+            </ul>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<div class="d-flex justify-content-center mt-4">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>

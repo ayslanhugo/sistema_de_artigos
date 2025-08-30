@@ -6,36 +6,36 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%# --- FONTES E ÍCONES --- %>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <%# --- ESTILOS (STYLESHEETS) --- %>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha34-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-  <style>
-
-  :root {
-    /* Cor primária baseada no azul do logo */
-    --bs-primary: #0d47a1;
+<style>
+  /* Define as cores para o MODO CLARO (padrão) */
+  :root, [data-bs-theme="light"] {
+    --bs-primary: #0d47a1; /* Azul escuro e sóbrio */
     --bs-primary-rgb: 13, 71, 161;
-
-    /* Cor secundária baseada no laranja do logo */
-    --bs-secondary: #f57c00;
+    --bs-secondary: #f57c00; /* Laranja vibrante */
     --bs-secondary-rgb: 245, 124, 0;
   }
 
+  /* Define as cores para o MODO ESCURO */
   [data-bs-theme="dark"] {
-
+    /* Usamos um tom de azul um pouco mais claro para um melhor contraste */
+    --bs-primary: #4285F4; 
+    --bs-primary-rgb: 66, 133, 244;
+    /* Mantemos o laranja vibrante para a cor secundária */
     --bs-secondary: #f57c00;
     --bs-secondary-rgb: 245, 124, 0;
   }
 
+  /* Ajustes gerais para links */
   a {
-  
     color: var(--bs-primary);
   }
   .top-bar a, .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-brand {
@@ -44,6 +44,17 @@
   .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-brand:hover {
       color: #fff;
   }
+
+.btn-secondary {
+  --bs-btn-color: #fff; /* Cor do texto do botão (branco) */
+  --bs-btn-bg: var(--bs-secondary); /* Cor de fundo, usando a sua variável laranja */
+  --bs-btn-border-color: var(--bs-secondary); /* Cor da borda, também laranja */
+  
+  /* Cores para o efeito "hover" (passar o rato por cima) */
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #d86c00;      /* Um tom de laranja um pouco mais escuro para o hover */
+  --bs-btn-hover-border-color: #b85c00; /* Borda ainda mais escura para o hover */
+}
 </style>
   <%= javascript_importmap_tags %>
 </head>
@@ -75,9 +86,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="mainNavbar">
-        <ul class="navbar-nav ms-auto align-items-center"> <%# A classe align-items-center ajuda no alinhamento vertical %>
-          
-          <%# --- BOTÃO DE MODO NOTURNO --- %>
+        <ul class="navbar-nav ms-auto align-items-center"> 
           <li class="nav-item">
             <a href="#" class="nav-link" id="theme-toggler" title="Alterar tema">
               <i class="bi bi-moon-stars-fill"></i>

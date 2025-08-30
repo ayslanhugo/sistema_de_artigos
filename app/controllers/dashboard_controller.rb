@@ -1,31 +1,33 @@
 class DashboardController < ApplicationController
-  # Garante que apenas usuários logados acessem
   before_action :authenticate_user!
-  # Garante que apenas admins acessem
-  before_action :require_admin, only: [:admin]
+  # CORRIGIDO: Agora o filtro de segurança se aplica a AMBAS as páginas do admin
+  before_action :require_admin, only: [ :admin, :manage_articles ]
 
   def admin
-    @pending_articles = Article.where(status: :pendente)
-  end
-
-  def manage_articles
-    @articles = Article.all.order(created_at: :desc) # Começa buscando todos
-
-    # Lógica para filtrar por status, se um filtro for selecionado
-    if params[:status].present?
-      @articles = @articles.where(status: params[:status])
-    end
+    @pending_articles = Article.where(status: :pendente).order(created_at: :desc)
+    @pagy, @pending_articles = pagy(@pending_articles, items: 20)
   end
 
   def student
-    # Busca apenas os artigos que pertencem ao usuário logado
-    # e ordena pelos mais recentes primeiro.
     @student_articles = current_user.articles.order(created_at: :desc)
+    @pagy, @student_articles = pagy(@student_articles, items: 20)
   end
+
+  def manage_articles
+    @articles = Article.includes(:user).order(created_at: :desc)
+    if params[:status].present?
+      @articles = @articles.where(status: params[:status])
+    end
+    if params[:query].present?
+      search_term = "%#{params[:query]}%"
+      @articles = @articles.joins(:user).where("articles.title ILIKE :search OR users.email ILIKE :search", search: search_term)
+    end
+    @pagy, @articles = pagy(@articles, items: 20)
+  end
+
   private
 
   def require_admin
-    # Redireciona para a página inicial se o usuário não for admin
     redirect_to root_path, alert: "Acesso não autorizado." unless current_user.admin?
   end
 end
