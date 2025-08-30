@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
   get "public/index"
   get "dashboard/admin"
   resources :articles
@@ -15,9 +16,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get 'admin_dashboard', to: 'dashboard#admin'
-  get 'meus_artigos', to: 'dashboard#student'
-  get 'gerenciar_artigos', to: 'dashboard#manage_articles'
+  get "admin_dashboard", to: "dashboard#admin"
+  get "meus_artigos", to: "dashboard#student"
+  get "gerenciar_artigos", to: "dashboard#manage_articles"
   root "public#index"
 
   resources :articles do
@@ -26,7 +27,7 @@ Rails.application.routes.draw do
       patch :approve
       patch :reject
       patch :set_pending
-      get :view_pdf  
+      get :view_pdf
     end
   end
 end
