@@ -8,3 +8,33 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
 }
+
+.card-hover-effect {
+  /* Define a duração e o tipo de transição para as propriedades 'transform' e 'box-shadow' */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-hover-effect:hover {
+  /* Aumenta o tamanho do card em 2% quando o mouse está sobre ele */
+  transform: scale(1.02);
+
+  /* Adiciona uma sombra mais pronunciada para dar um efeito de "elevação" */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* 2. Efeito de Fade-in para o conteúdo principal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-fade-in {
+  /* Aplica a animação 'fadeIn' com duração de 0.5 segundos */
+  animation: fadeIn 0.5s ease-out;
+}

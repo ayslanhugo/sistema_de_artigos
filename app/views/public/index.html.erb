@@ -1,10 +1,12 @@
-<div class="p-5 mb-4 bg-light rounded-3">
-  <div class="container-fluid py-5">
-    <h1 class="display-5 fw-bold">Bem-vindo ao Repositório Acadêmico</h1>
-    <p class="col-md-8 fs-4">Explore artigos e trabalhos submetidos por nossa comunidade de estudantes. Conhecimento, pesquisa e inovação em um só lugar.</p>
-
-    <%= link_to "Ver Artigos Aprovados", '#articles_list', class: "btn btn-primary btn-lg" %>
-    <%= link_to "Cadastre-se", new_user_registration_path, class: "btn btn-secondary btn-lg" %>
+<div class="text-center my-5">
+  <h1 class="display-5 fw-bold hero-title-responsive">Bem-vindo ao Repositório Acadêmico</h1>
+  <div class="col-lg-8 mx-auto">
+    <p class="lead text-muted">
+      Explore artigos e trabalhos submetidos por nossa comunidade de estudantes. Conhecimento, pesquisa e inovação em um só lugar.
+    </p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <%= link_to "Ver Artigos Aprovados", '#articles_list', class: "btn btn-primary btn-lg px-4 gap-3" %>
+    </div>
   </div>
 </div>
 
@@ -23,19 +25,15 @@
 
 <% if @approved_articles.any? %>
   <% @approved_articles.each do |article| %>
-    <div class="card mb-4 shadow-sm">
+<div class="card mb-4 shadow-sm card-hover-effect">
       
-      <%# --- LÓGICA ATUALIZADA DA IMAGEM DE CAPA --- %>
-      <%# Agora, só mostramos a tag de imagem se a capa existir. Se não, nada é renderizado. %>
       <% if article.cover_image.attached? %>
         <%= image_tag article.cover_image, class: "card-img-top", style: "height: 225px; object-fit: cover;", alt: "Capa do artigo" %>
       <% end %>
-      <%# --- FIM DA LÓGICA DA IMAGEM --- %>
 
-
-        <div class="card-body">
-          <h5 class="card-title"><%= article.title %></h5>
-          <% if article.pdf_file.attached? %>
+      <div class="card-body">
+        <h5 class="card-title"><%= article.title %></h5>
+        <% if article.pdf_file.attached? %>
             <%= link_to "Visualizar PDF", view_pdf_article_path(article), target: "_blank", class: "btn btn-primary" %>
           <% end %>
         </div>
