@@ -1,28 +1,21 @@
 Rails.application.routes.draw do
-  get "up" => "rails/health#show", as: :rails_health_check
-  get "public/index"
-  get "dashboard/admin"
-  resources :articles
+  # 1. Configuração do Devise para usuários
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # 2. Rota de Health Check (apenas uma vez)
+  # Usada por serviços como o Render para saber se o app está no ar.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # 3. Rota principal ("/") e Dashboards
+  root "public#index" # Define a página inicial
   get "admin_dashboard", to: "dashboard#admin"
   get "meus_artigos", to: "dashboard#student"
   get "gerenciar_artigos", to: "dashboard#manage_articles"
-  root "public#index"
 
+  # 4. Rotas para os Artigos (TUDO EM UM SÓ LUGAR)
+  # Isso cria as 7 rotas padrão (index, show, new, edit, create, update, destroy)
+  # E adiciona nossas ações personalizadas para cada artigo.
   resources :articles do
-    # Cria rotas como /articles/1/approve
     member do
       patch :approve
       patch :reject

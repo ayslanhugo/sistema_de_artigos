@@ -1,5 +1,4 @@
-/* app/assets/stylesheets/application.css */
-
+/* Estilos para Fontes */
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -9,20 +8,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+
+/* Estilos para Animações */
 .card-hover-effect {
-  /* Define a duração e o tipo de transição para as propriedades 'transform' e 'box-shadow' */
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .card-hover-effect:hover {
-  /* Aumenta o tamanho do card em 2% quando o mouse está sobre ele */
   transform: scale(1.02);
-
-  /* Adiciona uma sombra mais pronunciada para dar um efeito de "elevação" */
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-/* 2. Efeito de Fade-in para o conteúdo principal */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -35,6 +31,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-fade-in {
-  /* Aplica a animação 'fadeIn' com duração de 0.5 segundos */
   animation: fadeIn 0.5s ease-out;
+}
+
+
+/* --- TRANSIÇÃO SUAVE PARA O MODO NOTURNO --- */
+
+/* Aplicamos a transição aos principais elementos de bloco e componentes */
+body, .card, .card-header, .card-footer, .bg-light, .modal-content {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Para botões e links, que têm mais propriedades que mudam (como bordas) */
+.btn, a {
+  transition: background-color 1s ease, color 1s ease, border-color 1s ease;
 }

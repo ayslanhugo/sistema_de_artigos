@@ -5,7 +5,7 @@
       Explore artigos e trabalhos submetidos por nossa comunidade de estudantes. Conhecimento, pesquisa e inovação em um só lugar.
     </p>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <%= link_to "Ver Artigos Aprovados", '#articles_list', class: "btn btn-primary btn-lg px-4 gap-3" %>
+      <%= link_to "Ver Artigos Aprovados", '#articles_list', class: "btn btn-secondary btn-lg px-4 gap-3" %>
     </div>
   </div>
 </div>
@@ -20,7 +20,7 @@
           class: "form-control me-2",
           placeholder: "Buscar por título...",
           value: params[:query] %>
-    <%= form.submit "Buscar", class: "btn btn-outline-primary" %>
+    <%= form.submit "Buscar", class: "btn btn-outline-secondary" %>
   <% end %>
 
 <% if @approved_articles.any? %>
@@ -34,7 +34,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= article.title %></h5>
         <% if article.pdf_file.attached? %>
-            <%= link_to "Visualizar PDF", view_pdf_article_path(article), target: "_blank", class: "btn btn-primary" %>
+            <%= link_to "Visualizar PDF", view_pdf_article_path(article), target: "_blank", class: "btn btn-secondary" %>
           <% end %>
         </div>
 
