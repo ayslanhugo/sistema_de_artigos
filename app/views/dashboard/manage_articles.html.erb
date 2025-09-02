@@ -48,7 +48,6 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-<%= article.id %>">
               <li><%= link_to "Ver", article, class: "dropdown-item" %></li>
-              <li><%= link_to "Editar", edit_article_path(article), class: "dropdown-item" %></li>
               <li><hr class="dropdown-divider"></li>
               <% if !article.aprovado? %>
                 <li><%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
