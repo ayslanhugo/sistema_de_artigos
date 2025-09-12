@@ -1,0 +1,12 @@
+<% content_for :title, "Editando aviso" %>
+
+<h1>Editar Aviso</h1>
+
+<%= render "form", notice: @notice %>
+
+<br>
+
+<div>
+  <%= link_to "Mostrar este aviso", @notice %> |
+  <%= link_to "Voltar para avisos", notices_path %>
+</div>

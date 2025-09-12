@@ -22,3 +22,10 @@ pt-BR:
       notice: "Artigo reprovado com sucesso."
     set_pending:
       notice: "O status do artigo foi alterado para 'Pendente'."
+  notices:
+    create:
+      notice: "Aviso criado com sucesso."
+    update:
+      notice: "Aviso atualizado com sucesso."
+    destroy:
+      notice: "Aviso excluído com sucesso."

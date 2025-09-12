@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :notices
   # 1. Configuração do Devise para usuários
   devise_for :users
 
