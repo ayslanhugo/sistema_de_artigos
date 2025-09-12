@@ -41,28 +41,63 @@
           </span>
         </td>
         <td class="text-end">
-          <%# --- MENU DROPDOWN DE AÇÕES --- %>
-          <div class="dropdown">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-<%= article.id %>" data-bs-toggle="dropdown" aria-expanded="false">
-              Ações
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-<%= article.id %>">
-              <li><%= link_to "Ver", article, class: "dropdown-item" %></li>
-              <li><hr class="dropdown-divider"></li>
-              <% if !article.aprovado? %>
-                <li><%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
-              <% end %>
-              <% if !article.reprovado? %>
-                <li><%= button_to "Reprovar", reject_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
-              <% end %>
-              <% if !article.pendente? %>
-                <li><%= button_to "Pendente", set_pending_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
-              <% end %>
-              <li><hr class="dropdown-divider"></li>
-              <li><%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "dropdown-item text-danger", form: { "data-turbo" => "false" } %></li>
-            </ul>
+  <%# --- MENU DROPDOWN DE AÇÕES --- %>
+  <div class="dropdown">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-<%= article.id %>" data-bs-toggle="dropdown" aria-expanded="false">
+      Ações
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-<%= article.id %>">
+      <li><%= link_to "Ver", article, class: "dropdown-item" %></li>
+      <li><hr class="dropdown-divider"></li>
+      
+      <%# Botão de Aprovar %>
+      <% if !article.aprovado? %>
+        <li><%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
+      <% end %>
+      
+      <%# Botão de Reprovar que abre o Modal %>
+      <% if !article.reprovado? %>
+        <li>
+          <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#rejectModal-<%= article.id %>">
+            Reprovar
+          </button>
+        </li>
+      <% end %>
+      
+      <%# Botão de Marcar Pendente %>
+      <% if !article.pendente? %>
+        <li><%= button_to "Marcar Pendente", set_pending_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
+      <% end %>
+      
+      <li><hr class="dropdown-divider"></li>
+      <li><%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Tem certeza?' }, class: "dropdown-item text-danger", form: { "data-turbo" => "false" } %></li>
+    </ul>
+  </div>
+
+  <%# --- MODAL DE REPROVAÇÃO (um para cada artigo, escondido por padrão) --- %>
+  <div class="modal fade" id="rejectModal-<%= article.id %>" tabindex="-1" aria-labelledby="rejectModalLabel-<%= article.id %>" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_with(url: reject_article_path(article), method: :patch, "data-turbo": "false") do |form| %>
+          <div class="modal-header">
+            <h5 class="modal-title text-start" id="rejectModalLabel-<%= article.id %>">Reprovar Artigo: <%= article.title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </td>
+          <div class="modal-body text-start">
+            <div class="mb-3">
+              <%= form.label :rejection_reason, "Motivo da reprovação (será visível para o aluno):", class: "form-label" %>
+              <%= form.text_area :rejection_reason, rows: 4, class: "form-control", required: true %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <%= form.submit "Confirmar Reprovação", class: "btn btn-danger" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</td>
       </tr>
     <% end %>
   </tbody>

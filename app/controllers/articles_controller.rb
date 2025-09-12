@@ -57,10 +57,15 @@ class ArticlesController < ApplicationController
     redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.approve.notice")
   end
 
-  def reject
-    @article.reprovado!
-    redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.reject.notice")
-  end
+ def reject
+    reason = params[:rejection_reason]
+
+    if @article.update(status: :reprovado, rejection_reason: reason, rejection_seen: false)
+      redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.reject.notice")
+    else
+      redirect_back fallback_location: gerenciar_artigos_path, alert: "Não foi possível reprovar o artigo. O motivo é obrigatório."
+    end
+end
 
   def set_pending
     @article.pendente!

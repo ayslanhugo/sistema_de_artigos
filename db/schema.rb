@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_12_224211) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_230857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,6 +48,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_12_224211) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "rejection_reason"
+    t.boolean "rejection_seen"
+    t.string "default"
+    t.string "false"
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
