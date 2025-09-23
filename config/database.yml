@@ -12,9 +12,6 @@ test:
   database: sistema_de_artigos_test
 
 production:
-  # Código CORRIGIDO para a sua seção de produção
-
-production:
   primary:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
