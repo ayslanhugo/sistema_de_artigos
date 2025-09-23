@@ -12,8 +12,16 @@ test:
   database: sistema_de_artigos_test
 
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  # Código CORRIGIDO para a sua seção de produção
+
+production:
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+
+  queue:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
 
 cable:
   <<: *default
