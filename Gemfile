@@ -1,7 +1,7 @@
 source "https://rubygems.org"
-gem 'pagy'
-gem 'devise'
-gem 'rails-i18n'
+gem "pagy"
+gem "devise"
+gem "rails-i18n"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -52,7 +52,7 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'faker'
+  gem "faker"
 end
 
 group :development do
