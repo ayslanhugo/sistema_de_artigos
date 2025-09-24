@@ -59,7 +59,7 @@
   <%= javascript_importmap_tags %>
 </head>
 
-  <body>
+  <body class="d-flex flex-column vh-100">
 <header>
   <div class="top-bar bg-primary text-white py-1">
     <div class="container d-flex justify-content-between align-items-center">
@@ -130,7 +130,7 @@
   </nav>
 </header> 
 
-    <main class="container mt-4 content-fade-in">
+    <main class="container mt-4 content-fade-in flex-grow-1">
       <% if notice %>
         <p class="alert alert-success"><%= notice %></p>
       <% end %>
@@ -145,8 +145,6 @@
         <p class="mb-0">© <%= Time.now.year %> Sistema de Artigos. Todos os direitos reservados.</p>
         <p>Desenvolvido com Ruby on Rails, pela melhor turma de sistemas.</p>
       </div>
-    </footer>
-
-    
+    </footer>    
   </body>
 </html>
