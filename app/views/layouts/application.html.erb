@@ -16,25 +16,21 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
 <style>
-  /* Define as cores para o MODO CLARO (padrão) */
   :root, [data-bs-theme="light"] {
-    --bs-primary: #0d47a1; /* Azul escuro e sóbrio */
+    --bs-primary: #0d47a1; 
     --bs-primary-rgb: 13, 71, 161;
-    --bs-secondary: #f57c00; /* Laranja vibrante */
+    --bs-secondary: #f57c00; 
     --bs-secondary-rgb: 245, 124, 0;
   }
 
-  /* Define as cores para o MODO ESCURO */
   [data-bs-theme="dark"] {
-    /* Usamos um tom de azul um pouco mais claro para um melhor contraste */
     --bs-primary: #0d47a1; 
     --bs-primary-rgb: 13, 71, 161;
-    /* Mantemos o laranja vibrante para a cor secundária */
+ 
     --bs-secondary: #f57c00;
     --bs-secondary-rgb: 245, 124, 0;
   }
 
-  /* Ajustes gerais para links */
   a {
     color: var(--bs-primary);
   }
@@ -46,14 +42,12 @@
   }
 
 .btn-secondary {
-  --bs-btn-color: #fff; /* Cor do texto do botão (branco) */
-  --bs-btn-bg: var(--bs-secondary); /* Cor de fundo, usando a sua variável laranja */
-  --bs-btn-border-color: var(--bs-secondary); /* Cor da borda, também laranja */
-  
-  /* Cores para o efeito "hover" (passar o rato por cima) */
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-secondary); 
+  --bs-btn-border-color: var(--bs-secondary);
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #d86c00;      /* Um tom de laranja um pouco mais escuro para o hover */
-  --bs-btn-hover-border-color: #b85c00; /* Borda ainda mais escura para o hover */
+  --bs-btn-hover-bg: #d86c00; 
+  --bs-btn-hover-border-color: #b85c00;
 }
 </style>
   <%= javascript_importmap_tags %>
@@ -64,13 +58,12 @@
   <div class="top-bar bg-primary text-white py-1">
     <div class="container d-flex justify-content-between align-items-center">
       <div>
-        <a href="https://www.facebook.com/share/1EWpyp86zj/?mibextid=wwXIfr" class="text-white me-2"><i class="bi bi-facebook"></i></a>
-        <a href="https://www.instagram.com/sif.unirios?igsh=MXh6end0NjZoczE5Ng==" class="text-white me-2"><i class="bi bi-instagram"></i></a>
-        <a href="https://youtube.com/channel/UCOmkwSuWMGrr70gdntegIYg/UniriosCentroUniversit%C3%A1rio?si=Nt9ILNiGmOAIt6vR" class="text-white"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.facebook.com/share/1EWpyp86zj/?mibextid=wwXIfr" class="text-white me-2" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/sif.unirios?igsh=MXh6end0NjZoczE5Ng==" class="text-white me-2" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+        <a href="https://youtube.com/channel/UCOmkwSuWMGrr70gdntegIYg/UniriosCentroUniversit%C3%A1rio?si=Nt9ILNiGmOAIt6vR" class="text-white" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube"></i></a>
       </div>
       <div class="d-none d-lg-flex">
         <a href="<%= ajuda_path %>" class="nav-link text-white me-3"><i class="bi bi-question-circle-fill"></i> Ajuda</a>
-
         <a href="<%= fale_conosco_path %>" class="nav-link text-white"><i class="bi bi-telephone-fill"></i> Fale Conosco</a>
       </div>
     </div>

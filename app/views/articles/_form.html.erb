@@ -12,9 +12,7 @@
   <% end %>
 
   <div class="mb-3">
-    <%# Adicionada a classe 'form-label' %>
     <%= form.label :title, "Título", class: "form-label" %>
-    <%# Adicionada a classe 'form-control' %>
     <%= form.text_field :title, class: "form-control" %>
   </div>
 
@@ -29,7 +27,6 @@
   </div>
 
   <div>
-    <%# Adicionadas as classes 'btn btn-primary' para o botão %>
     <%= form.submit "Salvar Artigo", class: "btn btn-primary" %>
   </div>
 <% end %>

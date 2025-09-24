@@ -16,21 +16,34 @@
         <th style="padding: 8px;">Ações</th>
       </tr>
     </thead>
+<%# app/views/dashboard/student.html.erb %>
+
 <tbody>
   <% @student_articles.each do |article| %>
     <tr>
-      <td style="padding: 8px;"><%= article.title %></td>
-      <td style="padding: 8px;"><%= article.created_at.strftime("%d/%m/%Y") %></td>
-      <td style="padding: 8px;"><%= article.status.humanize %></td>
-      <td style="padding: 8px;">
-        <%= link_to "Ver detalhes", article, class: "btn btn-info btn-sm" %>
+      <td style="padding: 8px; vertical-align: middle;"><%= article.title %></td>
+      <td style="padding: 8px; vertical-align: middle;"><%= article.created_at.strftime("%d/%m/%Y") %></td>
+      <td style="padding: 8px; vertical-align: middle;"><%= article.status.humanize %></td>
+      
+      <%# Célula de Ações: usamos d-flex e gap-2 para alinhar os ícones horizontalmente com um pequeno espaço %>
+      <td style="padding: 8px; vertical-align: middle;" class="d-flex gap-2">
         
-        <%# Mostra os botões de Editar e Excluir APENAS se o artigo for pendente %>
+        <%# Botão "Ver Detalhes" com ícone e tooltip %>
+        <%= link_to article, class: "btn btn-sm btn-info", data: { bs_toggle: 'tooltip', bs_placement: 'top', bs_title: 'Ver Detalhes' } do %>
+          <i class="bi bi-eye-fill"></i>
+        <% end %>
+
+        <%# Lógica para mostrar botões de Editar e Excluir apenas para artigos pendentes %>
         <% if article.pendente? %>
-          <%# Certifique-se de que a linha abaixo está exatamente assim %>
-          <%= link_to "Editar", edit_article_path(article), class: "btn btn-warning btn-sm" %>
-          
-          <%= button_to "Excluir", article, method: :delete, data: { turbo_confirm: 'Você tem certeza?' }, class: "btn btn-danger btn-sm" %>
+          <%# Botão "Editar" com ícone e tooltip %>
+          <%= link_to edit_article_path(article), class: "btn btn-sm btn-warning", data: { bs_toggle: 'tooltip', bs_placement: 'top', bs_title: 'Editar' } do %>
+            <i class="bi bi-pencil-fill"></i>
+          <% end %>
+
+          <%# Botão "Excluir" com ícone e tooltip %>
+          <%= button_to article_path(article), method: :delete, class: "btn btn-sm btn-danger", form: { data: { turbo_confirm: 'Tem a certeza que deseja excluir este artigo?' } }, data: { bs_toggle: 'tooltip', bs_placement: 'top', bs_title: 'Excluir' } do %>
+            <i class="bi bi-trash-fill"></i>
+          <% end %>
         <% end %>
       </td>
     </tr>

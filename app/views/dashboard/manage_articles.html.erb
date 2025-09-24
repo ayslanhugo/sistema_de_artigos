@@ -4,7 +4,6 @@
 <div class="card p-3 mb-4">
   <div class="row align-items-center">
     <div class="col-lg-7">
-      <%# --- FILTROS POR STATUS --- %>
       <strong>Filtrar por status:</strong>
       <%= link_to "Todos", gerenciar_artigos_path, class: "btn btn-sm btn-secondary" %>
       <%= link_to "Pendentes", gerenciar_artigos_path(status: :pendente), class: "btn btn-sm btn-info" %>
@@ -12,7 +11,6 @@
       <%= link_to "Reprovados", gerenciar_artigos_path(status: :reprovado), class: "btn btn-sm btn-danger" %>
     </div>
     <div class="col-lg-5 mt-3 mt-lg-0">
-      <%# --- FORMULÁRIO DE BUSCA --- %>
       <%= form_with(url: gerenciar_artigos_path, method: :get, class: "d-flex") do |form| %>
         <%= form.text_field :query, class: "form-control me-2", placeholder: "Buscar por título ou autor...", value: params[:query] %>
         <%= form.submit "Buscar", class: "btn btn-outline-primary" %>
@@ -41,7 +39,6 @@
           </span>
         </td>
         <td class="text-end">
-  <%# --- MENU DROPDOWN DE AÇÕES --- %>
   <div class="dropdown">
     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-<%= article.id %>" data-bs-toggle="dropdown" aria-expanded="false">
       Ações
@@ -50,12 +47,10 @@
       <li><%= link_to "Ver", article, class: "dropdown-item" %></li>
       <li><hr class="dropdown-divider"></li>
       
-      <%# Botão de Aprovar %>
       <% if !article.aprovado? %>
         <li><%= button_to "Aprovar", approve_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
       <% end %>
       
-      <%# Botão de Reprovar que abre o Modal %>
       <% if !article.reprovado? %>
         <li>
           <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#rejectModal-<%= article.id %>">
@@ -64,7 +59,6 @@
         </li>
       <% end %>
       
-      <%# Botão de Marcar Pendente %>
       <% if !article.pendente? %>
         <li><%= button_to "Marcar Pendente", set_pending_article_path(article), method: :patch, class: "dropdown-item", form: { "data-turbo" => "false" } %></li>
       <% end %>
@@ -74,7 +68,6 @@
     </ul>
   </div>
 
-  <%# --- MODAL DE REPROVAÇÃO (um para cada artigo, escondido por padrão) --- %>
   <div class="modal fade" id="rejectModal-<%= article.id %>" tabindex="-1" aria-labelledby="rejectModalLabel-<%= article.id %>" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

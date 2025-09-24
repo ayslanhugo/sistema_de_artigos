@@ -1,10 +1,12 @@
+// app/javascript/application.js
+
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
-// --- LÓGICA DO MODO NOTURNO (DARK MODE) ---
 
 document.addEventListener('turbo:load', () => {
+  // --- LÓGICA DO MODO NOTURNO (DARK MODE) ---
   const themeToggler = document.getElementById('theme-toggler');
   const htmlElement = document.documentElement; // A tag <html>
 
@@ -35,4 +37,12 @@ document.addEventListener('turbo:load', () => {
       localStorage.setItem('theme', newTheme);
     });
   }
+  
+  // --- CÓDIGO PARA ATIVAR OS TOOLTIPS DO BOOTSTRAP ---
+  // Este bloco foi adicionado aqui dentro do mesmo evento
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    // Assegura que o tooltip não seja inicializado mais de uma vez no mesmo elemento
+    return bootstrap.Tooltip.getInstance(tooltipTriggerEl) || new bootstrap.Tooltip(tooltipTriggerEl);
+  });
 });

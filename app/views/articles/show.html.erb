@@ -37,7 +37,6 @@
 <hr>
 
 <div class="mt-4">
-  <%# Link de "Voltar" inteligente %>
   <% if current_user.admin? %>
     <%= link_to "Voltar ao Gerenciamento", gerenciar_artigos_path, class: "btn btn-secondary" %>
   <% else %>
