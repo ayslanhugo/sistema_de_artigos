@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Gestão de Utilizadores</h1>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Email do Utilizador</th>
+          <th>Papel Atual</th>
+          <th class="text-center">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.email %></td>
+            <td>
+              <% if user.admin? %>
+                <span class="badge bg-success">Administrador</span>
+              <% else %>
+                <span class="badge bg-secondary">Aluno</span>
+              <% end %>
+            </td>
+            <td class="text-center">
+              <% if user.aluno? %>
+                <%= button_to "Tornar Admin", admin_user_path(user), method: :patch, class: "btn btn-sm btn-outline-success" %>
+              <% else %>
+                <%= button_to "Remover Admin", admin_user_path(user), method: :patch, class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: "Tem a certeza que deseja remover os privilégios de administrador deste utilizador?" } } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4 d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
+</div>

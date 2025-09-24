@@ -97,7 +97,8 @@
         <li><%= link_to "Artigos Pendentes", admin_dashboard_path, class: "dropdown-item" %></li>
         <li><%= link_to "Gerenciar Artigos", gerenciar_artigos_path, class: "dropdown-item" %></li>
         <li><hr class="dropdown-divider"></li>
-        <li><%= link_to "Gerenciar Avisos", notices_path, class: "dropdown-item" %></li> 
+        <li><%= link_to "Gerenciar Avisos", notices_path, class: "dropdown-item" %></li>
+          <li><%= link_to "Gerenciar Utilizadores", admin_users_path, class: "dropdown-item" %></li> 
       <% else %>
         <li><%= link_to "Meus Artigos", meus_artigos_path, class: "dropdown-item" %></li>
         <li><%= link_to "Enviar Novo Artigo", new_article_path, class: "dropdown-item" %></li>
