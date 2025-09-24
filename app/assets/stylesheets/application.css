@@ -46,3 +46,6 @@ body, .card, .card-header, .card-footer, .bg-light, .modal-content {
 .btn, a {
   transition: background-color 1s ease, color 1s ease, border-color 1s ease;
 }
+.honeypot {
+  display: none !important;
+}
