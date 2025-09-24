@@ -1,0 +1,31 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <h1 class="text-center mb-4">Fale Conosco</h1>
+      <p class="lead text-center mb-5">
+        Tem alguma dúvida que não encontrou na nossa <a href="<%= ajuda_path %>">Central de Ajuda</a>? Preencha o formulário abaixo e entraremos em contato.
+      </p>
+
+      <%= form_with(url: fale_conosco_path, method: :post, local: true) do |form| %>
+        <div class="mb-3">
+          <%= form.label :nome, class: "form-label" %>
+          <%= form.text_field :nome, class: "form-control", required: true, placeholder: "Seu nome completo" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :email, "Seu Email para Contato", class: "form-label" %>
+          <%= form.email_field :email, class: "form-control", required: true, placeholder: "exemplo@dominio.com" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :mensagem, class: "form-label" %>
+          <%= form.text_area :mensagem, class: "form-control", rows: 5, required: true, placeholder: "Digite sua mensagem aqui..." %>
+        </div>
+
+        <div class="d-grid">
+          <%= form.submit "Enviar Mensagem", class: "btn btn-primary btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

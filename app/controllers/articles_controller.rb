@@ -1,10 +1,16 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy approve reject set_pending view_pdf ]
   before_action :authorize_student!, only: %i[ edit update destroy ]
+  before_action :require_admin, only: %i[ approve reject set_pending ]
+  before_action :authorize_viewer!, only: :view_pdf
 
-  def index
-    @articles = Article.all
-  end
+    def index
+    # 1. Garante que apenas admins podem aceder a esta lista completa.
+    require_admin
+
+    # 2. Resolve o problema N+1 carregando previamente os dados necessários.
+    @articles = Article.all.includes(:user).with_attached_cover_image
+    end
 
   def show
   end
@@ -80,10 +86,23 @@ end
   end
 
   private
+  def authorize_viewer!
+    # Se o artigo estiver aprovado, todos podem ver.
+    return if @article.aprovado?
 
-    def set_article
-      @article = Article.find(params[:id])
-    end
+    # Se ninguém estiver logado, bloqueia o acesso a artigos não aprovados.
+    authenticate_user!
+
+    # O admin ou o dono do artigo podem ver.
+    return if current_user.admin? || @article.user == current_user
+
+    # Se nenhuma das condições acima for satisfeita, o acesso é negado.
+    redirect_to root_path, alert: "Você não tem permissão para ver este ficheiro."
+  end
+
+  def set_article
+    @article = Article.find(params[:id])
+  end
 
     def article_params
       params.require(:article).permit(:title, :pdf_file, :cover_image)

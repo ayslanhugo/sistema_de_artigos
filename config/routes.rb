@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "ajuda", to: "paginas_estaticas#ajuda"
   resources :notices
   # 1. Configuração do Devise para usuários
   devise_for :users
@@ -13,10 +14,12 @@ Rails.application.routes.draw do
   get "meus_artigos", to: "dashboard#student"
   get "gerenciar_artigos", to: "dashboard#manage_articles"
 
-  # 4. Rotas para os Artigos (TUDO EM UM SÓ LUGAR)
-  # Isso cria as 7 rotas padrão (index, show, new, edit, create, update, destroy)
-  # E adiciona nossas ações personalizadas para cada artigo.
-  resources :articles do
+  get "fale-conosco", to: "paginas_estaticas#fale_conosco"
+  post "fale-conosco", to: "paginas_estaticas#enviar_contato"
+    # 4. Rotas para os Artigos (TUDO EM UM SÓ LUGAR)
+    # Isso cria as 7 rotas padrão (index, show, new, edit, create, update, destroy)
+    # E adiciona nossas ações personalizadas para cada artigo.
+    resources :articles, except: [ :index ] do
     member do
       patch :approve
       patch :reject
