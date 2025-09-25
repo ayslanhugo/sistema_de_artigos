@@ -4,11 +4,6 @@ class ArticlesController < ApplicationController
   before_action :require_admin, only: %i[ approve reject set_pending ]
   before_action :authorize_viewer!, only: :view_pdf
 
-    def index
-    require_admin
-
-    @articles = Article.all.includes(:user).with_attached_cover_image
-    end
 
   def show
   end
