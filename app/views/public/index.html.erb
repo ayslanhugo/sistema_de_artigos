@@ -6,23 +6,18 @@
     </p>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 
-      <%# --- INÍCIO DA LÓGICA DO NOVO BOTÃO --- %>
       <% if user_signed_in? %>
         <% if current_user.admin? %>
-          <%# Para Admins: Leva para o painel de gestão %>
           <%= link_to "Gerenciar Artigos", gerenciar_artigos_path, class: "btn btn-primary btn-lg px-4 me-sm-3" %>
         <% else %>
-          <%# Para Alunos: Leva para o formulário de envio %>
           <%= link_to "Enviar Novo Artigo", new_article_path, class: "btn btn-primary btn-lg px-4 me-sm-3" %>
         <% end %>
       <% else %>
         <%# Para Visitantes: Ao clicar, serão levados para o login/registo %>
         <%= link_to "Enviar Artigo", new_article_path, class: "btn btn-primary btn-lg px-4 me-sm-3" %>
       <% end %>
-      <%# --- FIM DA LÓGICA DO NOVO BOTÃO --- %>
 
-      <%# Botão secundário para ver os artigos já existentes %>
-      <%= link_to "Ver Artigos", '#articles_list', class: "btn btn-outline-secondary btn-lg px-4" %>
+      <%= link_to "Ver Artigos", '#articles_list', class: "btn btn-secondary btn-lg px-4" %>
     </div>
   </div>
 </div>
