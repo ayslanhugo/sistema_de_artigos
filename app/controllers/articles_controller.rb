@@ -46,9 +46,16 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article.destroy!
-    respond_to do |format|
-      format.html { redirect_to meus_artigos_path, notice: t("articles.destroy.notice") }
-      format.json { head :no_content }
+
+  if current_user.admin?
+    redirect_path = gerenciar_artigos_path
+  else
+    redirect_path = meus_artigos_path
+  end
+
+  respond_to do |format|
+    format.html { redirect_to redirect_path, notice: t("articles.destroy.notice") }
+    format.json { head :no_content }
     end
   end
 
