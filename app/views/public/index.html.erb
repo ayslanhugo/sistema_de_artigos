@@ -59,7 +59,7 @@
 <div class="card mb-4 shadow-sm card-hover-effect">
       
       <% if article.cover_image.attached? %>
-        <%= image_tag article.cover_image, class: "card-img-top", style: "height: 225px; object-fit: cover;", alt: "Capa do artigo" %>
+<%= image_tag article.cover_image.variant(resize_to_fill: [800, 250]), class: "card-img-top", alt: "Capa do artigo" %>
       <% end %>
 
       <div class="card-body">

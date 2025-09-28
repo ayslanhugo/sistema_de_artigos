@@ -80,10 +80,7 @@ class ArticlesController < ApplicationController
   end
 
   def view_pdf
-    send_data @article.pdf_file.download,
-              filename: @article.pdf_file.filename.to_s,
-              type: @article.pdf_file.content_type,
-              disposition: "inline"
+      redirect_to @article.pdf_file.url, allow_other_host: true
   end
 
   private
