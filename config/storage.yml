@@ -1,5 +1,6 @@
 cloudinary:
   service: Cloudinary
+  resource_type: "auto"
 
 test:
   service: Disk
