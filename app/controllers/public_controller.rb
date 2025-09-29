@@ -1,18 +1,17 @@
-class PublicController < ApplicationController
-  def index
-    approved_articles_query = Article.where(status: :aprovado)
-                                     .includes(:user)
-                                     .with_attached_cover_image
-                                     .with_attached_pdf_file
+# app/controllers/public_controller.rb
 
-    if params[:query].present?
-      approved_articles_query = approved_articles_query.where("title ILIKE ?", "%#{params[:query]}%")
-    end
+def index
+  approved_articles_query = Article.where(status: :aprovado)
+                                   .includes(:user)
+                                   .with_attached_pdf_file # Removemos a linha da cover_image daqui
 
-    ordered_query = approved_articles_query.order(created_at: :desc)
-
-    @pagy, @approved_articles = pagy(ordered_query, items: 10)
-
-    @notices = Notice.order(created_at: :desc).limit(5)
+  if params[:query].present?
+    approved_articles_query = approved_articles_query.where("title ILIKE ?", "%#{params[:query]}%")
   end
+
+  ordered_query = approved_articles_query.order(created_at: :desc)
+
+  @pagy, @approved_articles = pagy(ordered_query, items: 10)
+
+  @notices = Notice.order(created_at: :desc).limit(5)
 end
