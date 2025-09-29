@@ -1,3 +1,4 @@
+# app/controllers/dashboard_controller.rb
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, only: [ :admin, :manage_articles ]
@@ -12,7 +13,6 @@ class DashboardController < ApplicationController
 
   def student
     student_articles_query = current_user.articles
-                                         .with_attached_cover_image
                                          .with_attached_pdf_file
                                          .order(created_at: :desc)
 
@@ -20,8 +20,8 @@ class DashboardController < ApplicationController
   end
 
   def manage_articles
+    # Corrigimos a consulta aqui, removendo a linha da 'cover_image'
     articles_query = Article.includes(:user)
-                            .with_attached_cover_image
                             .order(created_at: :desc)
 
     if params[:status].present?
