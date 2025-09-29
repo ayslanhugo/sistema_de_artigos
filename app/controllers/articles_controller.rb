@@ -1,10 +1,10 @@
+# app/controllers/articles_controller.rb
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
-  before_action :set_article, only: %i[ show edit update destroy approve reject set_pending view_pdf ]
-  before_action :authorize_student!, only: %i[ edit update destroy ]
-  before_action :require_admin, only: %i[ approve reject set_pending ]
+  before_action :set_article, only: %i[show edit update destroy approve reject set_pending view_pdf]
+  before_action :authorize_student!, only: %i[edit update destroy]
+  before_action :require_admin, only: %i[approve reject set_pending]
   before_action :authorize_viewer!, only: :view_pdf
-
 
   def show
   end
@@ -47,15 +47,15 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy!
 
-  if current_user.admin?
-    redirect_path = gerenciar_artigos_path
-  else
-    redirect_path = meus_artigos_path
-  end
+    if current_user.admin?
+      redirect_path = gerenciar_artigos_path
+    else
+      redirect_path = meus_artigos_path
+    end
 
-  respond_to do |format|
-    format.html { redirect_to redirect_path, notice: t("articles.destroy.notice") }
-    format.json { head :no_content }
+    respond_to do |format|
+      format.html { redirect_to redirect_path, notice: t("articles.destroy.notice") }
+      format.json { head :no_content }
     end
   end
 
@@ -64,7 +64,7 @@ class ArticlesController < ApplicationController
     redirect_back fallback_location: gerenciar_artigos_path, notice: t("articles.approve.notice")
   end
 
- def reject
+  def reject
     reason = params[:rejection_reason]
 
     if @article.update(status: :reprovado, rejection_reason: reason, rejection_seen: false)
@@ -84,6 +84,7 @@ class ArticlesController < ApplicationController
   end
 
   private
+
   def authorize_viewer!
     return if @article.aprovado?
     authenticate_user!
@@ -97,14 +98,14 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
 
-    def article_params
-      params.require(:article).permit(:title, :pdf_file)
-    end
+  def article_params
+    params.require(:article).permit(:title, :pdf_file)
+  end
 
-    def authorize_student!
-      return if current_user.admin?
-      if @article.user != current_user || !@article.pendente?
-        redirect_to meus_artigos_path, alert: "Você não tem permissão para realizar esta ação."
-      end
+  def authorize_student!
+    return if current_user.admin?
+    if @article.user != current_user || !@article.pendente?
+      redirect_to meus_artigos_path, alert: "Você não tem permissão para realizar esta ação."
     end
+  end
 end
