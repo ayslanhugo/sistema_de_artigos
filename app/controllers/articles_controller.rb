@@ -98,7 +98,7 @@ class ArticlesController < ApplicationController
   end
 
     def article_params
-      params.require(:article).permit(:title, :pdf_file, :cover_image)
+      params.require(:article).permit(:title, :pdf_file)
     end
 
     def authorize_student!

@@ -5,5 +5,4 @@ class Article < ApplicationRecord
   enum :status, [ :pendente, :aprovado, :reprovado ]
 
   has_one_attached :pdf_file
-  has_one_attached :cover_image
 end
