@@ -1,9 +1,9 @@
 # config/cloudinary.yml
 
 development:
-  cloud_name: "dviueedgl"
-  api_key: "149654235989191"
-  api_secret: "5GSPz-DBLBkVUs7nmmo8g0bAcMo"
+  cloud_name: <%= ENV['CLOUDINARY_CLOUD_NAME'] %>
+  api_key:    <%= ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <%= ENV['CLOUDINARY_API_SECRET'] %>
   secure: true
 
 production:
@@ -13,7 +13,7 @@ production:
   secure: true
 
 test:
-  cloud_name: "dviueedgl"
-  api_key: "149654235989191"
-  api_secret: "5GSPz-DBLBkVUs7nmmo8g0bAcMo"
+  cloud_name: "test_cloud"
+  api_key:    "123456789012345"
+  api_secret: "test_secret_key"
   secure: true

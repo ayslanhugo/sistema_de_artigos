@@ -80,9 +80,7 @@ class ArticlesController < ApplicationController
   end
 
   def view_pdf
-    # Usamos service_url para obter um link público direto para o arquivo no Cloudinary.
-    # Isso é mais eficiente e a forma recomendada pelo Rails.
-    redirect_to @article.pdf_file.service_url, allow_other_host: true
+    redirect_to @article.pdf_file.blob.service_url, allow_other_host: true
   end
 
   private
