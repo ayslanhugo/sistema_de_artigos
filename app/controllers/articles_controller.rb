@@ -80,8 +80,10 @@ class ArticlesController < ApplicationController
   end
 
   def view_pdf
-    redirect_to rails_blob_url(@article.pdf_file, disposition: "inline"), allow_other_host: true
+  article = Article.find(params[:id])
+  redirect_to rails_blob_url(article.pdf_file, disposition: "inline")
   end
+
 
   private
 

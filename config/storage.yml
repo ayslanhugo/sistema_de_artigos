@@ -1,6 +1,6 @@
 cloudinary:
   service: Cloudinary
-  resource_type: "auto"
+  resource_type: :raw
 
 test:
   service: Disk
