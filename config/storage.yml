@@ -1,6 +1,5 @@
 cloudinary:
   service: Cloudinary
-  resource_type: :raw
 
 test:
   service: Disk
