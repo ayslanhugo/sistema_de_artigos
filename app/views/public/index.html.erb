@@ -61,7 +61,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= article.title %></h5>
         <% if article.pdf_file.attached? %>
-            <%= link_to "Ver PDF", view_pdf_article_path(article), data: { turbo: false }, target: "_blank" %>
+            <%= link_to "Ver PDF", article.view_pdf_path, data: { turbo: false }, target: "_blank" %>
           <% end %>
         </div>
 
